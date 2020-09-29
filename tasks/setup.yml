@@ -58,7 +58,10 @@
   when: output is not skipped
 
 - name: attempt to log into steam w/guard code
-  command: "{{ steamcmd_directory }}steamcmd.sh +set_steam_guard_code {{steamcmd_steam.guard}} +login {{ steamcmd_steam.username }} {{ steamcmd_steam.password }} +quit"
+  expect:
+    command: "{{ steamcmd_directory }}steamcmd.sh +login {{ steamcmd_steam.username }} {{ steamcmd_steam.password }} +quit"
+    responses:
+      (?i)Two-factor\ Code: "{{steamcmd_steam.guard}}"
   async: "{{ steamcmd_login_timeout}}"
   poll: 5
   register: output

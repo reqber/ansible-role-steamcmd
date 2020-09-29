@@ -12,6 +12,14 @@
     state: present
     update_cache: yes
   when: ansible_pkg_mgr == "apt"
+
+- name: install pexpect if needed
+  apt:
+    name: python3-pexpect
+    state: present
+    update_cache: yes
+  when: steamcmd_steam.guard is defined and 
+        ansible_pkg_mgr == "apt"
   
 - name: install packages if yum
   yum:
@@ -19,3 +27,11 @@
     state: present
     update_cache: yes
   when: ansible_pkg_mgr == "yum"
+
+- name: install pexpect if needed
+  yum:
+    name: python3-pexpect
+    state: present
+    update_cache: yes
+  when: steamcmd_steam.guard is defined and 
+        ansible_pkg_mgr == "yum"
